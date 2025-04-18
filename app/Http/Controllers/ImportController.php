@@ -10,10 +10,14 @@ class ImportController extends Controller
 {
     public function import(Request $request)
     {
+        set_time_limit(300); // タイムアウト対策（30秒→5分）
+
+        // バリデーション処理
         $request->validate([
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
 
+        // CSVファイルの処理
         $file = $request->file('csv_file');
         $handle = fopen($file->getRealPath(), 'r');
 
